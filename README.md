@@ -1,8 +1,14 @@
 # SECon Open 2027 Robot
 
-The C++ source code for the robot.
+This repository contains the C++ source code for the robot.
 
-## Git good practice
+## Git "best" practice
+
+Be sure to have some prerequisite knowledge of git before contributing, as this is not a git tutorial 
+
+### Branches
+Before branching from **dev** branch and pushing changes to **origin/dev**, you should ***always*** pull from **origin/dev** to make sure you have the most update to date changes.
+
 When creating a feature, modifiying docs, refactoring, or anything, please make a branch for it and test it. After it works, merge the branch back into dev branch.
 
 ###### ** This is subject to change **
@@ -16,12 +22,16 @@ Git Branch Workflow
 		* refactor/<>
 		* chore/<>
 
+### Commits
+
 When writing commit messages:
 * commit often 
-* prefix the message with what is it generally about
+* prefix the message with what changed
 * make sure the commit message fairly detailed
 
-For example, if you are adding a feat use "feat: detailed changes" instead of "vague changes"
+For example, if you are adding a feat use "feat: changes" instead of "vague changes"
+
+Consult additional resources below for more commit message best practice
 
 ###### ** This is subject to change **
 #### List of common commit prefixes
@@ -32,7 +42,12 @@ For example, if you are adding a feat use "feat: detailed changes" instead of "v
 * chore - a simple boring change like fixing formatting
 * merge - resolved a merge conflict
 
+### Useful resources
+https://www.conventionalcommits.org/en/v1.0.0/
 
+https://git-scm.com/cheat-sheet
+
+https://docs.github.com/en/get-started/using-git
 
 ## Libraries
 * to be finalized (I don't remember)

@@ -50,6 +50,15 @@ https://git-scm.com/cheat-sheet
 https://docs.github.com/en/get-started/using-git
 
 ## Libraries
-* to be finalized (I don't remember)
+* Servo - https://github.com/markushi/pico-servo
+* DC Motors - use Pico SDK
+* Encoders - https://github.com/GitJer/Some_RPI-Pico_stuff/tree/main/Rotary_encoder
+* Lidar - https://github.com/Slamtec/rplidar_sdk
+* IMU - https://github.com/MaikSteiger/rpi-pico-mpu6050 or Pico SDK??
 
-
+## Custom Libraries
+* Motor + Encoder Combo
+* Lidar?????
+* PID (Might already exist)
+* Matrix (Might already exist)
+* April tag reader (Via Connor)

@@ -1,42 +1,112 @@
-/*
-    Example program pico extension generated - Ben
-*/
-
 #include <stdio.h>
+#include <stdint.h>
 #include "pico/stdlib.h"
-#include "hardware/uart.h"
+#include "pico/multicore.h"
+
+#define FIB_ITERATIONS 4
+
+class SharedData {
+
+    public:
+        SharedData();
+
+        bool job_done = false;
+        mutex_t mutex;
+        uint16_t fib_results[FIB_ITERATIONS] = {0};
+};
 
 
-// UART defines
-// By default the stdout UART is `uart0`, so we will use the second one
-#define UART_ID uart1
-#define BAUD_RATE 115200
+SharedData::SharedData(){
+    mutex_init(&mutex);
+}
 
-// Use pins 4 and 5 for UART1
-// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments
-#define UART_TX_PIN 4
-#define UART_RX_PIN 5
 
+static SharedData shared_data;
+
+
+uint16_t fibonacci_sequence(uint16_t iter) {
+
+    uint16_t current, previous, sum;
+    current = 0;
+    previous = 1;
+    sum = 0;
+
+    for(uint16_t i = 0; i < iter; i++){
+        sum = current + previous;
+        previous = current;
+        current = sum;
+    }
+
+    return sum;
+}
+
+
+
+void main_core1() {
+
+    mutex_enter_blocking(&shared_data.mutex);
+
+    for(uint16_t i = 0; i < FIB_ITERATIONS; i++){
+        shared_data.fib_results[i] = fibonacci_sequence(i);
+    }
+    while(1)
+        tight_loop_contents();
+
+    shared_data.job_done = true;
+    mutex_exit(&shared_data.mutex);
+
+    while(1)
+        tight_loop_contents();
+}
+
+
+
+void core0_loop(){
+    printf("Core 0 waiting\n");
+    sleep_ms(1000);
+}
+
+ 
 int main() {
     stdio_init_all();
 
-    // Set up our UART
-    uart_init(UART_ID, BAUD_RATE);
-    // Set the TX and RX pins by using the function select on the GPIO
-    // Set datasheet for more information on function select
-    gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
-    gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
-    
-    // Use some the various UART functions to send out data
-    // In a default system, printf will also output via the default UART
-    
-    // Send out a string, with CR/LF conversions
-    uart_puts(UART_ID, " Hello, UART!\n");
-    
-    // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart
-
-    while (true) {
-        printf("Hello, world!\n");
-        sleep_ms(1000);
+    // wait for serial monitor to connect
+    while(!stdio_usb_connected()){
+        sleep_ms(100);
     }
+    sleep_ms(200);
+
+    multicore_launch_core1(main_core1);    
+
+    uint32_t mutex_owner;
+    bool finished = false;
+    while(!finished){
+
+        // while core1 processes, do other stuff
+        if(!mutex_try_enter(&shared_data.mutex, &mutex_owner)){
+            core0_loop();
+            continue;
+        }
+ 
+        // handle printing fib numbers, importantly, core0 owns the mutex here
+        
+        if(!shared_data.job_done){
+            mutex_exit(&shared_data.mutex);
+            sleep_ms(1);
+            continue;
+        }
+   
+        for(uint16_t i = 0; i < FIB_ITERATIONS; i++){
+            printf("%u\n", shared_data.fib_results[i]);
+        }
+        
+        mutex_exit(&shared_data.mutex);
+        finished = true;
+    }
+
+    while(1)
+        tight_loop_contents();
+
+    return 0;
 }
+

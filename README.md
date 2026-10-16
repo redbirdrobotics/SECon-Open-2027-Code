@@ -62,3 +62,5 @@ https://docs.github.com/en/get-started/using-git
 * PID (Might already exist)
 * Matrix (Might already exist)
 * April tag reader (Via Connor)
+* Statistics
+

@@ -3,7 +3,7 @@
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
 
-#define FIB_ITERATIONS 4
+#define FIB_ITERATIONS 100
 
 class SharedData {
 
@@ -12,7 +12,7 @@ class SharedData {
 
         bool job_done = false;
         mutex_t mutex;
-        uint16_t fib_results[FIB_ITERATIONS] = {0};
+        uint32_t fib_results[FIB_ITERATIONS] = {0};
 };
 
 
@@ -24,9 +24,9 @@ SharedData::SharedData(){
 static SharedData shared_data;
 
 
-uint16_t fibonacci_sequence(uint16_t iter) {
+uint32_t fibonacci_sequence(uint16_t iter) {
 
-    uint16_t current, previous, sum;
+    uint32_t current, previous, sum;
     current = 0;
     previous = 1;
     sum = 0;
@@ -46,11 +46,12 @@ void main_core1() {
 
     mutex_enter_blocking(&shared_data.mutex);
 
+    // demonstrate core0 not being blocked
+    sleep_ms(5000);
+
     for(uint16_t i = 0; i < FIB_ITERATIONS; i++){
         shared_data.fib_results[i] = fibonacci_sequence(i);
     }
-    while(1)
-        tight_loop_contents();
 
     shared_data.job_done = true;
     mutex_exit(&shared_data.mutex);

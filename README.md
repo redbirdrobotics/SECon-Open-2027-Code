@@ -52,7 +52,7 @@ https://docs.github.com/en/get-started/using-git
 ## Libraries
 * Servo - https://github.com/markushi/pico-servo
 * DC Motors - use Pico SDK
-* Encoders - https://github.com/GitJer/Some_RPI-Pico_stuff/tree/main/Rotary_encoder
+* Encoders - https://github.com/matteomeneghetti/pico-quadrature-encoder
 * Lidar - https://github.com/Slamtec/rplidar_sdk
 * IMU - https://github.com/MaikSteiger/rpi-pico-mpu6050 or Pico SDK??
 

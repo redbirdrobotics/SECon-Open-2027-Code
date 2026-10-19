@@ -34,7 +34,8 @@ pico_sdk_init()
 # This is where you add new source files
 add_executable(robot_program
     src/main.cpp
-    libs/pico_servo.c 
+    libs/pico_servo.c
+    libs/imported/QuadratureEncoder.cpp
 )
 
 pico_set_program_name(robot_program "robot_program")
@@ -43,12 +44,14 @@ pico_set_program_version(robot_program "0.1")
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(robot_program 1)
 pico_enable_stdio_usb(robot_program 1)
-
+pico_generate_pio_header(robot_program ${CMAKE_CURRENT_LIST_DIR}/libs/imported/quadrature_encoder.pio)
 
 # Add any pico libraries you use here to link them
 target_link_libraries(robot_program
     pico_stdlib
     hardware_pwm
+    hardware_pio
+    # quadrature_encoder
 )
 
 # Add the standard include files to the build

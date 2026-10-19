@@ -33,17 +33,13 @@
 // Maximum "top" is set at 65534 to be able to achieve 100% duty with 65535.
 #define SERVO_TOP_MAX 65534
 
-int
-servo_disable(const uint gpio_pin)
-{
+int servo_disable(const uint gpio_pin) {
     const uint8_t slice = pwm_gpio_to_slice_num(gpio_pin);
     pwm_set_enabled(slice, false);
     return 0;
 }
 
-int
-servo_enable(const uint gpio_pin)
-{
+int servo_enable(const uint gpio_pin) {
     gpio_set_function(gpio_pin, GPIO_FUNC_PWM);
     const uint8_t slice = pwm_gpio_to_slice_num(gpio_pin);
 
@@ -84,9 +80,7 @@ servo_enable(const uint gpio_pin)
  *
  * @param degree: value between 0 and 180
  * **/
-int
-servo_set_position(const uint gpio_pin, const uint16_t degree)
-{
+int servo_set_position(const uint gpio_pin, const uint16_t degree) {
     // values has to be between 0 and 180
     // SERVO_TOP_MAX = 100% full duty cycle
 

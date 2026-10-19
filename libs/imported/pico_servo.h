@@ -31,7 +31,7 @@
 #include "hardware/irq.h"
 #include "hardware/pwm.h"
 
-#include "pico_servo.h"
+#include "imported/pico_servo.h"
 
 // Set the frequency, making "top" as large as possible for maximum resolution.
 // Maximum "top" is set at 65534 to be able to achieve 100% duty with 65535.

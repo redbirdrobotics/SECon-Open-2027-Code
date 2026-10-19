@@ -34,7 +34,7 @@ pico_sdk_init()
 # This is where you add new source files
 add_executable(robot_program
     src/main.cpp
-    libs/pico_servo.c
+    libs/imported/pico_servo.c
     libs/imported/QuadratureEncoder.cpp
 )
 

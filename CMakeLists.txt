@@ -1,5 +1,3 @@
-# Generated Cmake Pico project file
-
 cmake_minimum_required(VERSION 3.13)
 
 set(CMAKE_C_STANDARD 11)
@@ -33,9 +31,10 @@ project(robot_program C CXX ASM)
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-# Add executable. Default name is the project name, version 0.1
-
-add_executable(robot_program main.cpp )
+# This is where you add new source files
+add_executable(robot_program
+    src/main.cpp 
+)
 
 pico_set_program_name(robot_program "robot_program")
 pico_set_program_version(robot_program "0.1")
@@ -44,13 +43,16 @@ pico_set_program_version(robot_program "0.1")
 pico_enable_stdio_uart(robot_program 1)
 pico_enable_stdio_usb(robot_program 1)
 
-# Add the standard library to the build
+
+# Add any pico libraries you use here to link them
 target_link_libraries(robot_program
         pico_stdlib)
 
 # Add the standard include files to the build
-target_include_directories(robot_program PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+target_include_directories(robot_program 
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/src
+        ${CMAKE_CURRENT_LIST_DIR}/libs
 )
 
 pico_add_extra_outputs(robot_program)

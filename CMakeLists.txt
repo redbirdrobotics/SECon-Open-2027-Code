@@ -33,7 +33,8 @@ pico_sdk_init()
 
 # This is where you add new source files
 add_executable(robot_program
-    src/main.cpp 
+    src/main.cpp
+    libs/pico_servo.c 
 )
 
 pico_set_program_name(robot_program "robot_program")
@@ -46,7 +47,9 @@ pico_enable_stdio_usb(robot_program 1)
 
 # Add any pico libraries you use here to link them
 target_link_libraries(robot_program
-        pico_stdlib)
+    pico_stdlib
+    hardware_pwm
+)
 
 # Add the standard include files to the build
 target_include_directories(robot_program 

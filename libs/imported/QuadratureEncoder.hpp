@@ -2,6 +2,7 @@
 #include <cmath>
 #include <stdexcept>
 
+#pragma once
 // #include "imported/quadrature_encoder.pio.h"
 
 class QuadratureEncoder

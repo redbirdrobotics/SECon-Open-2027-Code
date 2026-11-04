@@ -36,6 +36,7 @@ add_executable(robot_program
     src/main.cpp
     libs/imported/pico_servo.c
     libs/imported/QuadratureEncoder.cpp
+    libs/imported/mp92plus.c
 )
 
 pico_set_program_name(robot_program "robot_program")
@@ -51,7 +52,8 @@ target_link_libraries(robot_program
     pico_stdlib
     hardware_pwm
     hardware_pio
-    # quadrature_encoder
+    hardware_spi
+    hardware_i2c
 )
 
 # Add the standard include files to the build

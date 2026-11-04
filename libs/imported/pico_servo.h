@@ -33,6 +33,10 @@
 
 #include "imported/pico_servo.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Set the frequency, making "top" as large as possible for maximum resolution.
 // Maximum "top" is set at 65534 to be able to achieve 100% duty with 65535.
 #define SERVO_TOP_MAX 65534
@@ -49,5 +53,8 @@ int servo_enable(const uint gpio_pin);
  * @param degree: value between 0 and 180
  * **/
 int servo_set_position(const uint gpio_pin, const uint16_t degree);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

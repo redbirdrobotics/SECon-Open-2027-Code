@@ -54,7 +54,7 @@ https://docs.github.com/en/get-started/using-git
 * DC Motors - use Pico SDK
 * Encoders - https://github.com/matteomeneghetti/pico-quadrature-encoder
 * Lidar - https://github.com/Slamtec/rplidar_sdk
-* IMU - https://github.com/MaikSteiger/rpi-pico-mpu6050 or Pico SDK??
+* IMU - https://github.com/Optimunn/mp92plus or Pico SDK??
 
 ## Custom Libraries
 * Motor + Encoder Combo

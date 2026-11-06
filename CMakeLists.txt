@@ -37,6 +37,7 @@ add_executable(robot_program
     libs/imported/pico_servo.c
     libs/imported/QuadratureEncoder.cpp
     libs/imported/mp92plus.c
+    libs/LiDAR.cpp
 )
 
 pico_set_program_name(robot_program "robot_program")

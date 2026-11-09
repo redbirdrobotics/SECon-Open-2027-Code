@@ -55,6 +55,7 @@ https://docs.github.com/en/get-started/using-git
 * Encoders - https://github.com/matteomeneghetti/pico-quadrature-encoder
 * Lidar - https://github.com/Slamtec/rplidar_sdk
 * IMU - https://github.com/Optimunn/mp92plus or Pico SDK??
+* zscilib - math stuff https://github.com/zephyrproject-rtos/zscilib
 
 ## Custom Libraries
 * Motor + Encoder Combo

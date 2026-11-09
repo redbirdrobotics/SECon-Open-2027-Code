@@ -37,6 +37,11 @@ add_executable(robot_program
     libs/imported/pico_servo.c
     libs/imported/QuadratureEncoder.cpp
     libs/imported/mp92plus.c
+    libs/imported/zsl/matrices.c
+    libs/imported/zsl/probability.c
+    libs/imported/zsl/vectors.c
+    libs/imported/zsl/statistics.c
+    libs/imported/zsl/zsl.c
     libs/LiDAR.cpp
 )
 
@@ -62,6 +67,7 @@ target_include_directories(robot_program
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/libs
+        ${CMAKE_CURRENT_LIST_DIR}/libs/imported
 )
 
 pico_add_extra_outputs(robot_program)

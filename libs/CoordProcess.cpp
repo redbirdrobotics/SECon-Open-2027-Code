@@ -1,6 +1,7 @@
 #include "zsl.h"
 #include "CoordProcess.hpp"
 #include <cmath>
+#include <assert.h>
 /*
 *Creates the matrix relation between cartesian and polar coordinates of form
 * [
@@ -28,16 +29,20 @@ int setup_conversion_matrices(float theta){
     return 0;
 }
 
-static zsl_mtx UpdateGlobalToLocalMtx(zsl_mtx coordinate_matrix, float t_x, float t_y, float phi){
-    zsl_mtx result;
-    return result;
-};
+
 static zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi){
     zsl_mtx result;
     return result;
 };
-static zsl_mtx PolarToCartesian(float r, float theta){
+static zsl_mtx PolarToCartesian(zsl_mtx &polar_matrix){
 
-    zsl_mtx result;
-    return result;
+    int result;
+    ZSL_MATRIX_DEF(cartesian, 2, 1);
+    zsl_real_t magnitude, theta;
+    result = zsl_mtx_get(&polar_matrix, 0, 0, &magnitude);
+    assert(!result);
+    result = zsl_mtx_get(&polar_matrix, 1, 0, &theta);
+    assert(!result);
+
+    return cartesian;
 };

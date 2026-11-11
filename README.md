@@ -23,7 +23,8 @@ Git Branch Workflow
 		* chore/<>
 
 To merge into main branch, you must do a pull request & have the pull requested reviewed by one other person (preferable not yourself)
-This rule is only for main. I hope it will improve any code quality that gets to main branch
+
+This rule is only for main. I hope it will improve the code quality that gets to main branch
 
 ### Commits
 

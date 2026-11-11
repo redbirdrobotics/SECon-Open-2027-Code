@@ -1,6 +1,6 @@
 #include "zsl.h"
 #include "CoordProcess.hpp"
-#include <math.h>
+#include <cmath>
 /*
 *Creates the matrix relation between cartesian and polar coordinates of form
 * [
@@ -13,8 +13,8 @@ ZSL_MATRIX_DEF(inverse_conversion_matrix, 2, 2);
 
 
 int setup_conversion_matrices(float theta){
-    zsl_real_t c_data[4] = {Math.cos(theta), -Math.sin(theta),
-                            Math.sin(theta), Math.cos(theta)};
+    zsl_real_t c_data[4] = {cos(theta), -sin(theta),
+                            sin(theta), cos(theta)};
     zsl_mtx_from_arr(&conversion_matrix, c_data);
     zsl_mtx_init(&inverse_conversion_matrix, NULL);
     int rc = zsl_mtx_inv(&conversion_matrix, &inverse_conversion_matrix);

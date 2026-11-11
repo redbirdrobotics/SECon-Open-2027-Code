@@ -22,6 +22,10 @@ Git Branch Workflow
 		* refactor/<>
 		* chore/<>
 
+To merge into main branch, you must do a pull request & have the pull requested reviewed by one other person (preferable not yourself)
+
+This rule is only for main. I hope it will improve the code quality that gets to main branch
+
 ### Commits
 
 When writing commit messages:
@@ -50,6 +54,22 @@ https://git-scm.com/cheat-sheet
 https://docs.github.com/en/get-started/using-git
 
 ## Libraries
-* to be finalized (I don't remember)
+* Servo - https://github.com/markushi/pico-servo
+* DC Motors - use Pico SDK
+* Encoders - https://github.com/matteomeneghetti/pico-quadrature-encoder
+* Lidar - https://github.com/Slamtec/rplidar_sdk
+* IMU - https://github.com/Optimunn/mp92plus or Pico SDK??
+* zscilib - math stuff https://github.com/zephyrproject-rtos/zscilib
+
+## Custom Libraries
+* Motor + Encoder Combo
+* Lidar?????
+* PID (Might already exist)
+* Matrix (Might already exist)
+* April tag reader (Via Connor)
+* Statistics
 
 
+
+## To do
+* Added other libraries (DC Motors, Lidar, and IMU left)

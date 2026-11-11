@@ -43,6 +43,7 @@ add_executable(robot_program
     libs/imported/zsl/statistics.c
     libs/imported/zsl/zsl.c
     libs/LiDAR.cpp
+    libs/CoordProcess.hpp
 )
 
 pico_set_program_name(robot_program "robot_program")

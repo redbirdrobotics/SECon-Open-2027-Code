@@ -93,8 +93,15 @@ int  lapsCompleted    // Variable to store the number of laps completed
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/uart.h"
+#include "zsl.h"
+#include "CoordProcess.hpp"
+#include "matrices.h"
 
 
+ZSL_MATRIX_DEF(global_coordinates, 3, 1);
+ZSL_MATRIX_DEF(local_coordinates, 3, 1);
+ZSL_MATRIX_DEF(cartesian_coordinates, 2, 1);
+ZSL_MATRIX_DEF(polar_coordinates, 2, 1);
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one
 #define UART_ID uart1

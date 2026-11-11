@@ -33,7 +33,8 @@ int setup_conversion_matrices(float theta){
 static zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi){
     zsl_mtx result;
     return result;
-};
+}
+
 static zsl_mtx PolarToCartesian(zsl_mtx &polar_matrix){
 
     // creates and initalizes the cartesian matrix
@@ -56,4 +57,4 @@ static zsl_mtx PolarToCartesian(zsl_mtx &polar_matrix){
     zsl_mtx_set(&cartesian, 1, 0, y);        
 
     return cartesian;
-};
+}

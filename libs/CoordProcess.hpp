@@ -12,7 +12,6 @@
 */
 static zsl_mtx UpdateGlobalToLocalMtx(float t_x, float t_y, float phi);
 static zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi);
-static zsl_mtx CartesianToPolar(float x, float y);
 static zsl_mtx PolarToCartesian(float r, float theta);
 
 #endif

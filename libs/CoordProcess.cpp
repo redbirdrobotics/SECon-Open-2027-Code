@@ -36,10 +36,6 @@ static zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi){
     zsl_mtx result;
     return result;
 };
-static zsl_mtx CartesianToPolar(float x, float y){
-    zsl_mtx result;
-    return result;
-};
 static zsl_mtx PolarToCartesian(float r, float theta){
 
     zsl_mtx result;

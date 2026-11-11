@@ -93,9 +93,9 @@ int  lapsCompleted    // Variable to store the number of laps completed
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/uart.h"
-#include "zsl.h"
+#include "zsl/zsl.h"
 #include "CoordProcess.hpp"
-#include "matrices.h"
+#include "zsl/matrices.h"
 
 
 ZSL_MATRIX_DEF(global_coordinates, 3, 1);

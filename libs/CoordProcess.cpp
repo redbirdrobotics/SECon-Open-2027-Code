@@ -1,4 +1,4 @@
-#include "zsl.h"
+#include <zsl/zsl.h>
 #include "CoordProcess.hpp"
 #include <cmath>
 #include <assert.h>
@@ -29,15 +29,38 @@ int setup_conversion_matrices(float theta){
     return 0;
 }
 
+static inline zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi){
+    float cos_phi = cos(phi);
+    float sin_phi = sin(phi);
+    
 
-/*
+    /**
+     * @brief Construct 3x3 transformation matrix for local to global coordinate conversion.
+     * 
+     * Matrix structure:
+     * [cos(phi) -sin(phi) -t_x*cos(phi) - t_y*sin(phi)]
+     * [sin(phi) cos(phi) t_x*sin(phi) - t_y*cos(phi)]
+     * [0 0 1]
+     * 
+     * @param t_x Translation in x-direction.
+     * @param t_y Translation in y-direction.
+     * @param phi Rotation angle.
+     * @return Transformation matrix.
+     */
 
+    static zsl_real_t data[9] = {
+        cos_phi, -sin_phi, -t_x * cos_phi - t_y * sin_phi,
+        sin_phi,  cos_phi,  t_x * sin_phi - t_y * cos_phi,
+        0.0f,     0.0f,     1.0f
+    };
 
-*/
-static zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi){
-    zsl_mtx result;
-    return result;
-}
+    zsl_mtx mtx;
+    mtx.sz_cols = 3;
+    mtx.sz_rows = 3;
+    mtx.data = data;
+    return mtx;
+};
+
 
 static zsl_mtx PolarToCartesian(zsl_mtx &polar_matrix){
 

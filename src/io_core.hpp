@@ -1,6 +1,7 @@
 #ifndef IO_CORE_H__
 #define IO_CORE_H__
 
+#include "hardware/uart.h"
 #include "pico/mutex.h"
 #include "LiDAR.hpp"
 
@@ -24,6 +25,7 @@ typedef struct {
 class IO_Manager {
     public:
         // sets up core 1
+        bool init();
         void run();
         void signal_to_end();
          

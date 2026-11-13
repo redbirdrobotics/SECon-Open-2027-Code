@@ -27,3 +27,11 @@ void IO_Manager::run() {
 void IO_Manager::signal_to_end() {
     multicore_fifo_push_blocking(1);
 }
+
+bool IO_Manager::init() {
+    
+    lidar(uart0, 1, 2);
+    lidar.init();    
+    
+    return true;
+}

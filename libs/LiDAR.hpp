@@ -25,10 +25,10 @@ class RPLidarC1 {
 public:
     static constexpr uint32_t DEFAULT_BAUDRATE = 460800;
 
-    RPLidarC1(uart_inst_t* uart_hw, uint tx_pin, uint rx_pin, uint32_t baudrate = DEFAULT_BAUDRATE);
+    RPLidarC1() = default;
 
     // Initializes UART hardware and GPIO pins
-    void init();
+    void RPLidarC1::init(uart_inst_t* uart_hw, uint tx_pin, uint rx_pin, uint32_t baudrate);
 
     // Sends 0xA5 0x20 and verifies the 7-byte response descriptor
     bool startScan(uint32_t timeout_ms = 1000);

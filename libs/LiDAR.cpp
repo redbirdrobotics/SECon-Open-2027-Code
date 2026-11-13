@@ -9,15 +9,12 @@ static constexpr uint8_t CMD_STOP           = 0x25;
 static constexpr uint8_t CMD_SCAN           = 0x20;
 static constexpr uint8_t EXPECTED_DESC[7]   = {0xA5, 0x5A, 0x05, 0x00, 0x00, 0x40, 0x81};
 
-RPLidarC1::RPLidarC1(uart_inst_t* uart_hw, uint tx_pin, uint rx_pin, uint32_t baudrate)
-    : uart_(uart_hw),
-      tx_pin_(tx_pin),
-      rx_pin_(rx_pin),
-      baudrate_(baudrate),
-      scanning_(false),
-      byte_idx_(0) {}
 
-void RPLidarC1::init() {
+void RPLidarC1::init(uart_inst_t* uart_hw, uint tx_pin, uint rx_pin, uint32_t baudrate) {
+    uart_ = uart_hw;
+    tx_pin_ = tx_pin;
+    rx_pin_ = rx_pin;
+    baudrate_ = baudrate;
     uart_init(uart_, baudrate_);
     gpio_set_function(tx_pin_, GPIO_FUNC_UART);
     gpio_set_function(rx_pin_, GPIO_FUNC_UART);
@@ -25,6 +22,8 @@ void RPLidarC1::init() {
     uart_set_format(uart_, 8, 1, UART_PARITY_NONE);
     uart_set_fifo_enabled(uart_, true);
 }
+
+
 
 bool RPLidarC1::startScan(uint32_t timeout_ms) {
     stopScan(); // Ensure clean state before starting

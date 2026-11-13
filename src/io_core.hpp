@@ -2,6 +2,7 @@
 #define IO_CORE_H__
 
 #include "pico/mutex.h"
+#include "LiDAR.hpp"
 
 #define NUM_LIDAR_SWEEPS 5
 #define LIDAR_ANGLE_RANGE 180
@@ -28,6 +29,7 @@ class IO_Manager {
          
     private:
         LidarData theta_bufs[LIDAR_ANGLE_RANGE];
+        RPLidarC1 lidar;
 };
 
 

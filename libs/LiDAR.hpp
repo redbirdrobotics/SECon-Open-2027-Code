@@ -28,7 +28,7 @@ public:
     RPLidarC1() = default;
 
     // Initializes UART hardware and GPIO pins
-    void RPLidarC1::init(uart_inst_t* uart_hw, uint tx_pin, uint rx_pin, uint32_t baudrate);
+    void init(uart_inst_t* uart_hw, uint tx_pin, uint rx_pin, uint32_t baudrate = DEFAULT_BAUDRATE);
 
     // Sends 0xA5 0x20 and verifies the 7-byte response descriptor
     bool startScan(uint32_t timeout_ms = 1000);

@@ -36,6 +36,6 @@ class IO_Manager {
 
 
 // global variable for io_manager to shared across threads
-extern IO_Manager io_manager;
+extern IO_Manager io_manager;    
 
 #endif

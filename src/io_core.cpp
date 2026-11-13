@@ -30,8 +30,7 @@ void IO_Manager::signal_to_end() {
 
 bool IO_Manager::init() {
     
-    lidar(uart0, 1, 2);
-    lidar.init();    
+    lidar.init(uart0, 1, 1);    
     
     return true;
 }

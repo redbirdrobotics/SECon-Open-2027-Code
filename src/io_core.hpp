@@ -22,6 +22,7 @@ typedef struct {
 } LidarData;
 
 
+
 class IO_Manager {
     public:
         // sets up core 1
@@ -29,9 +30,8 @@ class IO_Manager {
         void run();
         void signal_to_end();
         RPLidarC1 lidar;
-         
-    private:
         LidarData theta_bufs[LIDAR_ANGLE_RANGE];
+        mutex_t theta_buf_mtx[NUM_LIDAR_SWEEPS];
 };
 
 

@@ -20,6 +20,7 @@ class IO_Manager {
     public:
         // sets up core 1
         void run();
+        void signal_to_end();
          
     private:
         LidarData data_bufs[NUM_LIDAR_SWEEPS];

@@ -28,10 +28,10 @@ class IO_Manager {
         bool init();
         void run();
         void signal_to_end();
+        RPLidarC1 lidar;
          
     private:
         LidarData theta_bufs[LIDAR_ANGLE_RANGE];
-        RPLidarC1 lidar;
 };
 
 

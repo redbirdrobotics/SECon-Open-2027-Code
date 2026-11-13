@@ -6,6 +6,12 @@ IO_Manager io_manager;
 
 // this is the actual function that runs on core 1
 void io_core_main() {
+    while(true){
+        if(io_manager.lidar.startScan()) break;
+    } 
+
+    // this will tell core 0 that core 1 is ready and is running
+    multicore_fifo_push_blocking(1);
 
     while(true) {
 
@@ -21,7 +27,8 @@ void io_core_main() {
 
 
 void IO_Manager::run() {
-    multicore_launch_core1(io_core_main);  
+    multicore_launch_core1(io_core_main);
+    multicore_fifo_pop_blocking();  
 }
 
 void IO_Manager::signal_to_end() {

@@ -94,8 +94,9 @@ int  lapsCompleted    // Variable to store the number of laps completed
 #include "pico/stdlib.h"
 #include "hardware/uart.h"
 #include "zsl/zsl.h"
-#include "CoordProcess.hpp"
 #include "zsl/matrices.h"
+#include "CoordProcess.hpp"
+#include "io_core.hpp"
 
 
 ZSL_MATRIX_DEF(global_coordinates, 3, 1);
@@ -150,13 +151,17 @@ int main() {
     
     // Send out a string, with CR/LF conversions
     uart_puts(UART_ID, " Hello, UART!\n");
-    
+   
+    io_manager.run();
+
     // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart
 
     while (true) {
         printf("Hello, world!\n");
         sleep_ms(1000);
     }
+
+    io_manager.signal_to_end();
 }
 
 

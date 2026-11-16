@@ -47,7 +47,7 @@ void io_core_main() {
         poll_lidar();
 
 
-        
+
         if(multicore_fifo_rvalid()){ // this polling the stack between cores to see the end signal
             uint32_t signal = multicore_fifo_pop_blocking();   
             if(signal)
@@ -71,6 +71,9 @@ void IO_Manager::signal_to_end() {
 bool IO_Manager::init() {
 
     lidar.init(uart0, 1, 1);    
+    for(int i = 0; i < LIDAR_ANGLE_RANGE; i++){
+        mutex_init(&io_manager.theta_bufs[i].mtx);
+    }
     
     return true;
 }

@@ -74,14 +74,6 @@ However, this will be a good starting point for the program and will be updated 
     4. Lap Count: an integer that stores the number of laps completed by the car
 
 NOTE: these pins are not finalized since there isnt even a finalized schematic and not much of a physical circuit either.
-#define SERVO_PIN 4     // Pin connected to the servo motor
-#define DCFR_PIN 5      // Pin connected to the front right DC motor
-#define DCFL_PIN 18     // Pin connected to the front left DC motor
-#define DCRR_PIN 19     // Pin connected to the rear right DC motor
-#define DCRL_PIN 21     // Pin connected to the rear left DC motor
-#define LiDAR_PIN 22    // Pin connected to the LiDAR sensor
-#define APRILTAG_PIN 23 // Pin connected to the AprilTag reader
-
 
 
 bool timerDone        // Flag to indicate if the timer has completed
@@ -98,6 +90,13 @@ int  lapsCompleted    // Variable to store the number of laps completed
 #include "CoordProcess.hpp"
 #include "io_core.hpp"
 
+#define SERVO_PIN 4     // Pin connected to the servo motor
+#define DCFR_PIN 5      // Pin connected to the front right DC motor
+#define DCFL_PIN 18     // Pin connected to the front left DC motor
+#define DCRR_PIN 19     // Pin connected to the rear right DC motor
+#define DCRL_PIN 21     // Pin connected to the rear left DC motor
+#define LiDAR_PIN 22    // Pin connected to the LiDAR sensor
+#define APRILTAG_PIN 23 // Pin connected to the AprilTag reader
 
 ZSL_MATRIX_DEF(global_coordinates, 3, 1);
 ZSL_MATRIX_DEF(local_coordinates, 3, 1);
@@ -112,6 +111,11 @@ ZSL_MATRIX_DEF(polar_coordinates, 2, 1);
 // Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments
 #define UART_TX_PIN 4
 #define UART_RX_PIN 5
+
+//I2C defines
+#define I2C_ID i2c0
+#define I2C_SDA_PIN 6
+#define I2C_SCL_PIN 7
 
 void controlMotors(int speed, int direction) {
     /*

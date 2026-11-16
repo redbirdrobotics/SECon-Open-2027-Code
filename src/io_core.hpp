@@ -14,7 +14,7 @@
 */
 
 // using alias to make changing the type easier if nessesary
-typedef uint8_t lidar_data_t;
+typedef float lidar_data_t;
 
 typedef struct {
     lidar_data_t r_data[NUM_LIDAR_SWEEPS];

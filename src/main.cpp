@@ -106,7 +106,7 @@ ZSL_MATRIX_DEF(polar_coordinates, 2, 1);
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one
 #define UART_ID uart1
-#define BAUD_RATE 115200
+#define BAUD_RATE 460800
 
 // Use pins 4 and 5 for UART1
 // Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments

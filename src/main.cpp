@@ -129,7 +129,8 @@ int main() {
     
     // Send out a string, with CR/LF conversions
     uart_puts(UART_ID, " Hello, UART!\n");
-   
+  
+    io_manager.init();
     io_manager.run();
 
     // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart

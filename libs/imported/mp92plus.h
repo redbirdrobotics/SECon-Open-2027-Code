@@ -7,7 +7,7 @@
 /**Use magnetometer or not. If true, magnetometer is used.*/
 #define MP92_USE_COMPASS true
 /**Use SPI or I2C. If true, SPI is used.*/
-#define MP92_USE_SPI true
+// #define MP92_USE_SPI false
 
 #ifndef MP92_USE_COMPASS
 #define MP92_USE_COMPASS false

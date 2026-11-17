@@ -71,7 +71,7 @@ void IO_Manager::signal_to_end() {
 
 bool IO_Manager::init() {
 
-    lidar.init(uart0, 1, 1);    
+    lidar.init(uart0, 12, 13);    
     for(int i = 0; i < LIDAR_ANGLE_RANGE; i++){
         mutex_init(&io_manager.theta_bufs[i].mtx);
     }

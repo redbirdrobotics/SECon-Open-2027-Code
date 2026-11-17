@@ -34,9 +34,20 @@ void RPLidarC1::init(uart_inst_t* uart_hw, uint tx_pin, uint rx_pin, uint32_t ba
 
 #ifdef uart_default
     // If stdio_uart was enabled by stdio_init_all() on the same UART, disable it
-    // so printf() does not inject debug text onto the LiDAR UART line.
+    // so printf() does not inject debug text onto the LiDAR UART line, and unmux
+    // the default stdio UART pins (GP0/GP1) so they don't conflict with GP12/GP13.
     if (uart_ == uart_default) {
         stdio_set_driver_enabled(&stdio_uart, false);
+#ifdef PICO_DEFAULT_UART_TX_PIN
+        if (tx_pin_ != PICO_DEFAULT_UART_TX_PIN) {
+            gpio_set_function(PICO_DEFAULT_UART_TX_PIN, GPIO_FUNC_NULL);
+        }
+#endif
+#ifdef PICO_DEFAULT_UART_RX_PIN
+        if (rx_pin_ != PICO_DEFAULT_UART_RX_PIN) {
+            gpio_set_function(PICO_DEFAULT_UART_RX_PIN, GPIO_FUNC_NULL);
+        }
+#endif
     }
 #endif
 
@@ -59,20 +70,29 @@ void RPLidarC1::init(uart_inst_t* uart_hw, uint tx_pin, uint rx_pin, uint32_t ba
 
 
 bool RPLidarC1::startScan(uint32_t timeout_ms) {
-    stopScan(); // Ensure clean state before starting
+    // Matches prepare_serial_port() in test.py: send STOP (0xA5 0x25), wait 100ms, flush RX
+    stopScan();
 
     const uint8_t cmd[2] = {CMD_SYNC_BYTE, CMD_SCAN};
     uart_write_blocking(uart_, cmd, 2);
     uart_tx_wait_blocking(uart_);
 
-    // Wait for and verify the 7-byte response descriptor: A5 5A 05 00 00 40 81
+    // Wait for the 7-byte response descriptor: A5 5A 05 00 00 40 81
+    // Also detect if the LiDAR is already streaming valid 5-byte scan packets
     uint8_t desc_idx = 0;
+    uint8_t sync_buf[5];
+    uint8_t sync_byte_idx = 0;
+    uint8_t valid_packets = 0;
+    uint32_t rx_count = 0;
+
     absolute_time_t deadline = make_timeout_time_ms(timeout_ms);
-    absolute_time_t retry_time = make_timeout_time_ms(250);
 
     while (!time_reached(deadline)) {
         if (uart_is_readable(uart_)) {
             uint8_t b = uart_getc(uart_);
+            rx_count++;
+
+            // 1. Check for standard 7-byte scan descriptor
             if (b == EXPECTED_DESC[desc_idx]) {
                 desc_idx++;
                 if (desc_idx == 7) {
@@ -81,21 +101,56 @@ bool RPLidarC1::startScan(uint32_t timeout_ms) {
                     return true;
                 }
             } else {
-                // Re-align if current byte matches start of descriptor
                 desc_idx = (b == EXPECTED_DESC[0]) ? 1 : 0;
             }
-        } else if (time_reached(retry_time)) {
-            // Re-send stop + scan if the LiDAR missed the initial command
-            stopScan();
-            uart_write_blocking(uart_, cmd, 2);
-            uart_tx_wait_blocking(uart_);
-            desc_idx = 0;
-            retry_time = make_timeout_time_ms(250);
+
+            // 2. Fallback: if LiDAR is already streaming 5-byte scan packets,
+            // verify 3 consecutive valid packets so we don't stall if descriptor was missed
+            if (sync_byte_idx == 0) {
+                if (isValidHeaderByte0(b)) {
+                    sync_buf[0] = b;
+                    sync_byte_idx = 1;
+                } else {
+                    valid_packets = 0;
+                }
+            } else if (sync_byte_idx == 1) {
+                if (isValidHeaderByte1(b)) {
+                    sync_buf[1] = b;
+                    sync_byte_idx = 2;
+                } else {
+                    valid_packets = 0;
+                    if (isValidHeaderByte0(b)) {
+                        sync_buf[0] = b;
+                        sync_byte_idx = 1;
+                    } else {
+                        sync_byte_idx = 0;
+                    }
+                }
+            } else {
+                sync_buf[sync_byte_idx++] = b;
+                if (sync_byte_idx == 5) {
+                    sync_byte_idx = 0;
+                    uint16_t raw_angle_q6 = ((static_cast<uint16_t>(sync_buf[2]) << 7) |
+                                             (static_cast<uint16_t>(sync_buf[1]) >> 1));
+                    if (raw_angle_q6 < (360u * 64u)) {
+                        valid_packets++;
+                        if (valid_packets >= 3) {
+                            scanning_ = true;
+                            byte_idx_ = 0;
+                            return true;
+                        }
+                    } else {
+                        valid_packets = 0;
+                    }
+                }
+            }
         } else {
             tight_loop_contents();
         }
     }
 
+    printf("[LiDAR] startScan timeout (TX=GP%u, RX=GP%u, rx_bytes=%lu)\n",
+           tx_pin_, rx_pin_, static_cast<unsigned long>(rx_count));
     return false;
 }
 
@@ -106,20 +161,18 @@ void RPLidarC1::stopScan() {
     scanning_ = false;
     byte_idx_ = 0;
 
-    // RPLIDAR C1 requires >= 10-20 ms after STOP before issuing another command.
-    // Actively drain the RX FIFO during this window so it does not overflow.
-    absolute_time_t stop_wait = make_timeout_time_ms(20);
+    // RPLIDAR C1 needs ~100 ms after STOP to return to IDLE (same as time.sleep(0.1) in test.py).
+    // Actively drain the RX FIFO during this window so the hardware FIFO does not overflow.
+    absolute_time_t stop_wait = make_timeout_time_ms(100);
     while (!time_reached(stop_wait)) {
         while (uart_is_readable(uart_)) {
             (void)uart_getc(uart_);
         }
     }
 
-    // Flush any remaining in-flight bytes until the RX line is idle for 2 ms
-    while (uart_is_readable_within_us(uart_, 2000)) {
-        while (uart_is_readable(uart_)) {
-            (void)uart_getc(uart_);
-        }
+    // Drain any leftover bytes currently in the hardware FIFO
+    while (uart_is_readable(uart_)) {
+        (void)uart_getc(uart_);
     }
     uart_get_hw(uart_)->rsr = 0;
 }

@@ -140,10 +140,12 @@ int main() {
 
     while (true) {
         printf("Yo\n"); 
-        auto data = io_manager.theta_bufs[90];
+        LidarData& data = io_manager.theta_bufs[90];
         mutex_enter_blocking(&data.mtx);
-        printf("R: %f", data.r_data[0]);
+        float r = data.r_data[0];
         mutex_exit(&data.mtx);
+        printf("R: %f\n", r);
+        sleep_ms(100);
     }
 
     io_manager.signal_to_end();

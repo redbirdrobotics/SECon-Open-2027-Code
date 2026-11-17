@@ -120,8 +120,13 @@ int main() {
     while (true) {
         LidarData& data = io_manager.theta_bufs[90];
         mutex_enter_blocking(&data.mtx);
-        float r = data.r_data[0];
+        float average;
+        for(int i = 0; i < NUM_LIDAR_SWEEPS; i++){
+          average += data.r_data[i];
+        }
         mutex_exit(&data.mtx);
+        average /= NUM_LIDAR_SWEEPS;
+        printf("Mean R: %f\n");
         sleep_ms(100);
     }
 

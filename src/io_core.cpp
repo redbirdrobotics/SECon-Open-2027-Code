@@ -31,6 +31,18 @@ void poll_lidar() {
 }
 
 
+bool check_end_signal() {
+
+    if(multicore_fifo_rvalid()){ // this polling the stack between cores to see the end signal
+        uint32_t signal = multicore_fifo_pop_blocking();   
+        if(signal)
+            return true; 
+    }
+
+    return false;
+}
+
+
 // this is the actual function that runs on core 1
 void io_core_main() {
     while(true){
@@ -42,15 +54,11 @@ void io_core_main() {
     multicore_fifo_push_blocking(1);
 
     while(true) {
-
         // main loop of io stuff 
         poll_lidar();
 
-        if(multicore_fifo_rvalid()){ // this polling the stack between cores to see the end signal
-            uint32_t signal = multicore_fifo_pop_blocking();   
-            if(signal)
-                break; 
-        }
+        if(check_end_signal())
+            break;
     }
 
     io_manager.lidar.stopScan();

@@ -108,43 +108,20 @@ void targetposition(int x, int y) {
     */
 }
 int main() {
-    /*
-    In this main function, there shouldnt be that much code in here
-    Blocking the code is good practice for clarity and organization of the code
-    Also note that there are 2 pico 2 microcontrollers on the car
-    We will need to decide on the best way to split the code between the 2 microcontrollers
-    */
 
     stdio_init_all();
     while(!stdio_usb_connected()){
         sleep_ms(100);
     }
-    sleep_ms(200);
-    // Set up our UART
-    // uart_init(UART_ID, BAUD_RATE);
-    // Set the TX and RX pins by using the function select on the GPIO
-    // Set datasheet for more information on function select
-    // gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
-    // gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
     
-    // Use some the various UART functions to send out data
-    // In a default system, printf will also output via the default UART
-    
-    // Send out a string, with CR/LF conversions
-    // uart_puts(UART_ID, " Hello, UART!\n");
-  
     io_manager.init();
     io_manager.run();
 
-    // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart
-
     while (true) {
-        printf("Yo\n"); 
         LidarData& data = io_manager.theta_bufs[90];
         mutex_enter_blocking(&data.mtx);
         float r = data.r_data[0];
         mutex_exit(&data.mtx);
-        printf("R: %f\n", r);
         sleep_ms(100);
     }
 

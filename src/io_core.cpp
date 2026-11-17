@@ -44,10 +44,7 @@ void io_core_main() {
     while(true) {
 
         // main loop of io stuff 
-
         poll_lidar();
-
-
 
         if(multicore_fifo_rvalid()){ // this polling the stack between cores to see the end signal
             uint32_t signal = multicore_fifo_pop_blocking();   

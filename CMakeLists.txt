@@ -26,15 +26,15 @@ set(PICO_BOARD pico2 CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(pico_1_program C CXX ASM)
+project(pico_two_program C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # This is where you add new source files
-add_executable(pico_1_program
+add_executable(pico_one_program
     src/main_pico_one.cpp
-    src/io_core.cpp
+    src/pico-one/io_core.cpp
     libs/imported/pico_servo.c
     libs/imported/QuadratureEncoder.cpp
     libs/imported/mp92plus.c
@@ -47,16 +47,16 @@ add_executable(pico_1_program
     libs/CoordProcess.hpp
 )
 
-pico_set_program_name(pico_1_program "pico_1_program")
-pico_set_program_version(pico_1_program "0.1")
+pico_set_program_name(pico_one_program "pico_one_program")
+pico_set_program_version(pico_one_program "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(pico_1_program 1)
-pico_enable_stdio_usb(pico_1_program 1)
-pico_generate_pio_header(pico_1_program ${CMAKE_CURRENT_LIST_DIR}/libs/imported/quadrature_encoder.pio)
+pico_enable_stdio_uart(pico_one_program 1)
+pico_enable_stdio_usb(pico_one_program 1)
+pico_generate_pio_header(pico_one_program ${CMAKE_CURRENT_LIST_DIR}/libs/imported/quadrature_encoder.pio)
 
 # Add any pico libraries you use here to link them
-target_link_libraries(pico_1_program
+target_link_libraries(pico_one_program
     pico_stdlib
     pico_multicore
     hardware_pwm
@@ -66,12 +66,48 @@ target_link_libraries(pico_1_program
 )
 
 # Add the standard include files to the build
-target_include_directories(pico_1_program 
+target_include_directories(pico_one_program 
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/libs
         ${CMAKE_CURRENT_LIST_DIR}/libs/imported
 )
 
-pico_add_extra_outputs(pico_1_program)
+pico_add_extra_outputs(pico_one_program)
+
+
+project(pico_two_program C CXX ASM)
+
+# This is where you add new source files
+add_executable(pico_two_program
+    src/main_pico_two.cpp
+)
+
+pico_set_program_name(pico_two_program "pico_two_program")
+pico_set_program_version(pico_two_program "0.1")
+
+# Modify the below lines to enable/disable output over UART/USB
+pico_enable_stdio_uart(pico_two_program 1)
+pico_enable_stdio_usb(pico_two_program 1)
+pico_generate_pio_header(pico_two_program ${CMAKE_CURRENT_LIST_DIR}/libs/imported/quadrature_encoder.pio)
+
+# Add any pico libraries you use here to link them
+target_link_libraries(pico_two_program
+    pico_stdlib
+    pico_multicore
+    hardware_pwm
+    hardware_pio
+    hardware_spi
+    hardware_i2c
+)
+
+# Add the standard include files to the build
+target_include_directories(pico_two_program 
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/src
+        ${CMAKE_CURRENT_LIST_DIR}/libs
+        ${CMAKE_CURRENT_LIST_DIR}/libs/imported
+)
+
+pico_add_extra_outputs(pico_two_program)
 

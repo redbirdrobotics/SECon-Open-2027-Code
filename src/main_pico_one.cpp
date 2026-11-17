@@ -88,8 +88,8 @@ int  lapsCompleted    // Variable to store the number of laps completed
 #include "zsl/zsl.h"
 #include "zsl/matrices.h"
 #include "CoordProcess.hpp"
-#include "io_core.hpp"
-#include "const.hpp"
+#include "pico-one/io_core.hpp"
+#include "pico-one/const.hpp"
 
 void controlMotors(int speed, int direction) {
     /*

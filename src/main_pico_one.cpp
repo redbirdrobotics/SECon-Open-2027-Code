@@ -126,7 +126,7 @@ int main() {
         }
         mutex_exit(&data.mtx);
         average /= NUM_LIDAR_SWEEPS;
-        printf("Mean R: %f\n");
+        printf("Mean R: %f\n", average);
         sleep_ms(100);
     }
 

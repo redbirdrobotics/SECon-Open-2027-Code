@@ -26,14 +26,14 @@ set(PICO_BOARD pico2 CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(robot_program C CXX ASM)
+project(pico_1_program C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # This is where you add new source files
-add_executable(robot_program
-    src/main.cpp
+add_executable(pico_1_program
+    src/main_pico_one.cpp
     src/io_core.cpp
     libs/imported/pico_servo.c
     libs/imported/QuadratureEncoder.cpp
@@ -47,16 +47,16 @@ add_executable(robot_program
     libs/CoordProcess.hpp
 )
 
-pico_set_program_name(robot_program "robot_program")
-pico_set_program_version(robot_program "0.1")
+pico_set_program_name(pico_1_program "pico_1_program")
+pico_set_program_version(pico_1_program "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(robot_program 1)
-pico_enable_stdio_usb(robot_program 1)
-pico_generate_pio_header(robot_program ${CMAKE_CURRENT_LIST_DIR}/libs/imported/quadrature_encoder.pio)
+pico_enable_stdio_uart(pico_1_program 1)
+pico_enable_stdio_usb(pico_1_program 1)
+pico_generate_pio_header(pico_1_program ${CMAKE_CURRENT_LIST_DIR}/libs/imported/quadrature_encoder.pio)
 
 # Add any pico libraries you use here to link them
-target_link_libraries(robot_program
+target_link_libraries(pico_1_program
     pico_stdlib
     pico_multicore
     hardware_pwm
@@ -66,12 +66,12 @@ target_link_libraries(robot_program
 )
 
 # Add the standard include files to the build
-target_include_directories(robot_program 
+target_include_directories(pico_1_program 
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/libs
         ${CMAKE_CURRENT_LIST_DIR}/libs/imported
 )
 
-pico_add_extra_outputs(robot_program)
+pico_add_extra_outputs(pico_1_program)
 

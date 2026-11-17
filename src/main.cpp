@@ -133,18 +133,17 @@ int main() {
     // Send out a string, with CR/LF conversions
     // uart_puts(UART_ID, " Hello, UART!\n");
   
-    // io_manager.init();
-    // io_manager.run();
+    io_manager.init();
+    io_manager.run();
 
     // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart
 
     while (true) {
-        // auto data = io_manager.theta_bufs[90];
-        // mutex_enter_blocking(&data.mtx);
-        // printf("R: %f", data.r_data[0]);
-        // mutex_exit(&data.mtx);
-        printf("Hello, world!\n");
-        sleep_ms(1000);
+        printf("Yo\n"); 
+        auto data = io_manager.theta_bufs[90];
+        mutex_enter_blocking(&data.mtx);
+        printf("R: %f", data.r_data[0]);
+        mutex_exit(&data.mtx);
     }
 
     io_manager.signal_to_end();

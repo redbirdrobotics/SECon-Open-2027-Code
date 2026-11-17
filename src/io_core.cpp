@@ -34,6 +34,7 @@ void poll_lidar() {
 // this is the actual function that runs on core 1
 void io_core_main() {
     while(true){
+        printf("Yo2\n");
         if(io_manager.lidar.startScan()) break;
     } 
 

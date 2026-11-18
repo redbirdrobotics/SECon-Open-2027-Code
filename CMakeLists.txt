@@ -63,6 +63,7 @@ target_link_libraries(pico_one_program
     hardware_pio
     hardware_spi
     hardware_i2c
+    pico_i2c_slave
 )
 
 # Add the standard include files to the build
@@ -89,7 +90,6 @@ pico_set_program_version(pico_two_program "0.1")
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(pico_two_program 1)
 pico_enable_stdio_usb(pico_two_program 1)
-pico_generate_pio_header(pico_two_program ${CMAKE_CURRENT_LIST_DIR}/libs/imported/quadrature_encoder.pio)
 
 # Add any pico libraries you use here to link them
 target_link_libraries(pico_two_program
@@ -99,6 +99,7 @@ target_link_libraries(pico_two_program
     hardware_pio
     hardware_spi
     hardware_i2c
+    pico_i2c_slave
 )
 
 # Add the standard include files to the build

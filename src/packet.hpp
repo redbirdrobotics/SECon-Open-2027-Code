@@ -5,5 +5,11 @@
 This will eventually hold a struct that will contain motor, servo, and whatever other controls from pico one to pico two
 */
 
+typedef struct {
+    float r;
+    float theta;
+} PicoCommand;
+
+
 
 #endif

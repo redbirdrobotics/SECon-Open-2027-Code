@@ -90,6 +90,7 @@ int  lapsCompleted    // Variable to store the number of laps completed
 #include "CoordProcess.hpp"
 #include "pico-one/io_core.hpp"
 #include "pico-one/const.hpp"
+#include "packet.hpp"
 
 void controlMotors(int speed, int direction) {
     /*
@@ -117,6 +118,8 @@ int main() {
     io_manager.init();
     io_manager.run();
 
+    PicoCommand outgoing_command = {0};
+
     while (true) {
         LidarData& data = io_manager.theta_bufs[90];
         mutex_enter_blocking(&data.mtx);
@@ -127,6 +130,20 @@ int main() {
         mutex_exit(&data.mtx);
         average /= NUM_LIDAR_SWEEPS;
         printf("Mean R: %f\n", average);
+        
+
+        int written = i2c_write_blocking(
+            IPC_I2C,
+            I2C_SLAVE_ADDRESS,
+            reinterpret_cast<const uint8_t*>(&outgoing_command),
+            sizeof(PicoCommand),
+            false
+        );
+
+        if (written != sizeof(PicoCommand)) {
+            printf("I2C transmission error\n");
+        }
+
         sleep_ms(100);
     }
 

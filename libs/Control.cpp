@@ -43,8 +43,8 @@ namespace Control {
 	
     void computeMecanumOutput(float target_x, float target_y, float target_yaw, float curr_x, float curr_y, float curr_yaw, float gyro_wz, float dt, float wheel_pwm[4])
     {
-        const float l;//thse should probably be turned into a macro later on
-        const float w;//Im just trying to get a working code. not an efficient one right now
+        const float l = 0.1;//thse should probably be turned into a macro later on
+        const float w = 0.1;//Im just trying to get a working code. not an efficient one right now
         const float sum_l_w = l+w;
         float v_x_Global = updatePID(cfg_x, state_x, target_x, curr_x, dt);
         float v_y_Global = updatePID(cfg_y, state_y, target_y, curr_y, dt);

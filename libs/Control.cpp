@@ -70,11 +70,13 @@ namespace Control {
         ZSL_MATRIX_DEF(Global_Signal_Velocities, 3, 1);
         ZSL_MATRIX_DEF(Local_Signal_Velocities, 3, 1);
         ZSL_MATRIX_DEF(Output_Angular_Frequencies, 4, 1);
-        CoordProcess.setup_conversion_matrices(curr_yaw);
+        ZSL_MATRIX_DEF(InverseRotation, 2, 2);
+        zsl_real_t inverse_rotation_identity[4] = {fcosf(curr_yaw), fsinf(curr_yaw), -fsins(curr_yaw), fcosf(curr_yaw)};
         zsl_real_t transform_data[12] = {-sum_l_w, 1, -1, sum_l_w, 1, 1, sum_l_w, 1, -1, -sum_l_w, 1, 1};
         zsl_real_t global_signal_velocities[3] = {True_Yaw_Output, v_x_Global, v_y_Global};
         zsl_mtx_from_arr(&Transform_Matrix, transform_data);
         zsl_mtx_from_arr(&Global_Signal_Velocities, global_signal_velocities);
+        zsl_mtx_from_arr(&InverseRotation, inverse_rotation_identity);
         zsl_mtx_mult(&CoordProcess.inverse_conversion_matrix, &Global_Signal_Velocities, &Local_Signal_Velocities);
         zsl_mtx_mult(&Transform_Matrix, &Local_Signal_Velocities, &Output_Angular_Frequencies);
         /*

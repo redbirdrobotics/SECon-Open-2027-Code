@@ -10,7 +10,7 @@
 *]
 */
 ZSL_MATRIX_DEF(conversion_matrix, 2, 2);
-ZSL_MATRIX_DEF(inverse_conversion_matrix, 2, 2);
+public static ZSL_MATRIX_DEF(inverse_conversion_matrix, 2, 2);
 
 
 int setup_conversion_matrices(float theta){
@@ -35,6 +35,8 @@ static inline zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi){
     
 
     /**
+     * NOTE FROM WILLIAM: this is suppossed to return the actual x,y coordinates in reference to the body of the robot
+     *
      * @brief Construct 3x3 transformation matrix for local to global coordinate conversion.
      * 
      * Matrix structure:

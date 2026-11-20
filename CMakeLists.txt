@@ -82,6 +82,10 @@ project(pico_two_program C CXX ASM)
 # This is where you add new source files
 add_executable(pico_two_program
     src/main_pico_two.cpp
+    tests/test_main_pico_two.cpp
+    tests/test_LiDAR.cpp
+    tests/test_coordProcess.cpp
+    tests/test_some_motor_function.cpp
 )
 
 pico_set_program_name(pico_two_program "pico_two_program")

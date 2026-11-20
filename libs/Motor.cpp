@@ -3,22 +3,24 @@
 #include "hardware/gpio.h"
 
 PicoMotor::PicoMotor(uint n1_pin, uint n2_pin, uint pwm_pin) { 
-    // Initialize direction pins
+    PicoMotor::n1_pin = n1_pin;
+    PicoMotor::n2_pin = n2_pin;
+    PicoMotor::pwm_pin = pwm_pin;
+    
     gpio_init(n1_pin);
     gpio_set_dir(n1_pin, GPIO_OUT);
     gpio_init(n2_pin);
     gpio_set_dir(n2_pin, GPIO_OUT);
 
-    // Initialize PWM pin
     gpio_set_function(pwm_pin, GPIO_FUNC_PWM);
     num_slice = pwm_gpio_to_slice_num(pwm_pin);
     channel = pwm_gpio_to_channel(pwm_pin);
 
-    // Configure PWM frequency (~1.9 kHz at 125 MHz sys_clk)
     pwm_config config = pwm_get_default_config();
     pwm_config_set_clkdiv(&config, 1.0f);
     pwm_config_set_wrap(&config, 65535);
     pwm_init(num_slice, &config, true);
+    
 
     stop();
 }

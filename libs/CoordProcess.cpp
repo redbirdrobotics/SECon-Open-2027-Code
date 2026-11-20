@@ -10,7 +10,7 @@
 *]
 */
 ZSL_MATRIX_DEF(conversion_matrix, 2, 2);
-public static ZSL_MATRIX_DEF(inverse_conversion_matrix, 2, 2);
+ZSL_MATRIX_DEF(inverse_conversion_matrix, 2, 2);
 
 
 int setup_conversion_matrices(float theta){

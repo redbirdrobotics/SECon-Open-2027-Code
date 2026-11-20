@@ -1,5 +1,6 @@
 #include "Motor.hpp"
 #include "hardware/pwm.h"
+#include "hardware/gpio.h"
 
 PicoMotor::PicoMotor(uint n1_pin, uint n2_pin, uint pwm_pin) { 
     // Initialize direction pins

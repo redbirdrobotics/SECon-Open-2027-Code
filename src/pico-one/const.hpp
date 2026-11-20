@@ -1,6 +1,7 @@
 #ifndef ROBOT_CONST_HPP
 #define ROBOT_CONST_HPP
 
+#include "zsl/matrices.h"
 
 //Taken pins: 4, 5, 26, 27, 39, 40 for pico1
 //Taken pins: 1, 2, 4-7, 9-12, 19, 20, 39, 40 for pico2

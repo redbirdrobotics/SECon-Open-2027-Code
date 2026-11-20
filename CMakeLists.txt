@@ -113,3 +113,36 @@ target_include_directories(pico_two_program
 
 pico_add_extra_outputs(pico_two_program)
 
+
+
+
+project(motor_driver_test C CXX ASM)
+
+# This is where you add new source files
+add_executable(motor_driver_test
+    test/motor-class.cpp
+    libs/Motor.cpp
+)
+
+pico_set_program_name(motor_driver_test "pico_two_program")
+pico_set_program_version(motor_driver_test "0.1")
+
+# Modify the below lines to enable/disable output over UART/USB
+pico_enable_stdio_uart(motor_driver_test 1)
+pico_enable_stdio_usb(motor_driver_test 1)
+
+# Add any pico libraries you use here to link them
+target_link_libraries(motor_driver_test
+    pico_stdlib
+    hardware_pwm
+)
+
+# Add the standard include files to the build
+target_include_directories(motor_driver_test 
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/libs
+)
+
+pico_add_extra_outputs(motor_driver_test)
+
+

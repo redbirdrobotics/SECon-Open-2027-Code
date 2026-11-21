@@ -30,8 +30,12 @@ class IO_Manager {
         bool init();
         // sets up core 1 and runs core 1
         void run();
-        int send_child_command(PicoCommand command);
         void signal_to_end();
+        
+        // sends a command to robin pico
+        int send_child_command(PicoCommand command);
+        // averages all the r's in theta_bufs, and puts the averaged data into average_theta_buf
+        void average_lidar_data();
         RPLidarC1 lidar;
         LidarData theta_bufs[LIDAR_ANGLE_RANGE];
         lidar_data_t average_theta_buf[LIDAR_ANGLE_RANGE];

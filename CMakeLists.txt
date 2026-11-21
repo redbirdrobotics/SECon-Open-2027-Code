@@ -35,6 +35,7 @@ pico_sdk_init()
 add_executable(pico_one_program
     src/main_pico_one.cpp
     src/pico-one/io_core.cpp
+    src/pico-one/io_manager.cpp
     libs/imported/pico_servo.c
     libs/imported/QuadratureEncoder.cpp
     libs/imported/mp92plus.c
@@ -44,7 +45,8 @@ add_executable(pico_one_program
     libs/imported/zsl/statistics.c
     libs/imported/zsl/zsl.c
     libs/LiDAR.cpp
-    libs/CoordProcess.hpp
+    libs/CoordProcess.cpp
+    libs/Control.cpp
 )
 
 pico_set_program_name(pico_one_program "pico_one_program")
@@ -82,6 +84,7 @@ project(pico_two_program C CXX ASM)
 # This is where you add new source files
 add_executable(pico_two_program
     src/main_pico_two.cpp
+    src/pico-two/commands.cpp
     libs/Motor.cpp
 )
 
@@ -145,5 +148,37 @@ target_include_directories(motor_driver_test
 )
 
 pico_add_extra_outputs(motor_driver_test)
+
+
+project(lidar_test C CXX ASM)
+
+# This is where you add new source files
+add_executable(lidar_driver_test
+    test/lidar-test.cpp
+    src/pico-one/io_manager.cpp
+    src/pico-one/io_core.cpp
+)
+
+pico_set_program_name(lidar_driver_test "pico_two_program")
+pico_set_program_version(lidar_driver_test "0.1")
+
+# Modify the below lines to enable/disable output over UART/USB
+pico_enable_stdio_uart(lidar_driver_test 1)
+pico_enable_stdio_usb(lidar_driver_test 1)
+
+# Add any pico libraries you use here to link them
+target_link_libraries(lidar_driver_test
+    pico_stdlib
+    hardware_i2c
+)
+
+# Add the standard include files to the build
+target_include_directories(lidar_driver_test 
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/libs
+        ${CMAKE_CURRENT_LIST_DIR}/src
+)
+
+pico_add_extra_outputs(lidar_driver_test)
 
 

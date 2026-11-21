@@ -9,9 +9,13 @@
 *These two functions will convert the coordinates of objects between global and local frames of references
 *The functions will depend on the recorded displacement in the x and y direction and the angle rotation,
 */
-static zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi);
-static zsl_mtx PolarToCartesian(zsl_mtx &polar_matrix);
 
-static inline zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi);
+namespace CoordProcess{
+    static zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi);
+    static zsl_mtx PolarToCartesian(zsl_mtx &polar_matrix);
+    static inline zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi);
+    extern struct zsl_mtx conversion_matrix;
+    extern struct zsl_mtx inverse_conversion_matrix;
+}
 
 #endif

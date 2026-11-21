@@ -110,11 +110,6 @@ void targetposition(int x, int y) {
 }
 int main() {
     stdio_init_all();
-    i2c_init(MASTER_I2C, I2C_BAUDRATE);
-    gpio_set_function(MASTER_I2C_SDA_PIN, GPIO_FUNC_I2C);
-    gpio_set_function(MASTER_I2C_SCL_PIN, GPIO_FUNC_I2C);
-    gpio_pull_up(MASTER_I2C_SDA_PIN);
-    gpio_pull_up(MASTER_I2C_SCL_PIN);
 
 
     io_manager.init();
@@ -123,16 +118,6 @@ int main() {
     PicoCommand outgoing_command = {0};
 
     while (true) {
-        /*LidarData& data = io_manager.theta_bufs[90];
-        mutex_enter_blocking(&data.mtx);
-        float average;
-        for(int i = 0; i < NUM_LIDAR_SWEEPS; i++){
-          average += data.r_data[i];
-        }
-        mutex_exit(&data.mtx);
-        average /= NUM_LIDAR_SWEEPS;
-        printf("Mean R: %f\n", average);
-        */
 
         gpio_put(PICO_DEFAULT_LED_PIN, 1);
         if(io_manager.send_child_command(outgoing_command)){

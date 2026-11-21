@@ -26,8 +26,9 @@ typedef struct {
 
 class IO_Manager {
     public:
-        // sets up core 1
+        // initalizes all pins and values needed for IO
         bool init();
+        // sets up core 1 and runs core 1
         void run();
         int send_child_command(PicoCommand command);
         void signal_to_end();

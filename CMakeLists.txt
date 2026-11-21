@@ -109,6 +109,7 @@ target_include_directories(pico_two_program
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/libs
         ${CMAKE_CURRENT_LIST_DIR}/libs/imported
+        ${CMAKE_CURRENT_LIST_DIR}/src/pico-two
 )
 
 pico_add_extra_outputs(pico_two_program)

@@ -109,19 +109,21 @@ void targetposition(int x, int y) {
     */
 }
 int main() {
-
     stdio_init_all();
-    while(!stdio_usb_connected()){
-        sleep_ms(100);
-    }
-    
-    io_manager.init();
-    io_manager.run();
+    i2c_init(MASTER_I2C, I2C_BAUDRATE);
+    gpio_set_function(MASTER_I2C_SDA_PIN, GPIO_FUNC_I2C);
+    gpio_set_function(MASTER_I2C_SCL_PIN, GPIO_FUNC_I2C);
+    gpio_pull_up(MASTER_I2C_SDA_PIN);
+    gpio_pull_up(MASTER_I2C_SCL_PIN);
+
+
+    //io_manager.init();
+    //io_manager.run();
 
     PicoCommand outgoing_command = {0};
 
     while (true) {
-        LidarData& data = io_manager.theta_bufs[90];
+        /*LidarData& data = io_manager.theta_bufs[90];
         mutex_enter_blocking(&data.mtx);
         float average;
         for(int i = 0; i < NUM_LIDAR_SWEEPS; i++){
@@ -130,20 +132,24 @@ int main() {
         mutex_exit(&data.mtx);
         average /= NUM_LIDAR_SWEEPS;
         printf("Mean R: %f\n", average);
-        
-
-        int written = i2c_write_blocking(
-            IPC_I2C,
+        */
+gpio_put(PICO_DEFAULT_LED_PIN, 1);
+    printf("Sending...\n");
+        int written = i2c_write_timeout_us(
+            MASTER_I2C,
             I2C_SLAVE_ADDRESS,
             reinterpret_cast<const uint8_t*>(&outgoing_command),
             sizeof(PicoCommand),
-            false
+            false,
+            50000
         );
-
+printf("I2C written: %d\n", written);
+    gpio_put(PICO_DEFAULT_LED_PIN, 0);
+    sleep_ms(500);
         if (written != sizeof(PicoCommand)) {
             printf("I2C transmission error\n");
         }
-
+        printf("I2C written: %d\n", written);
         sleep_ms(100);
     }
 

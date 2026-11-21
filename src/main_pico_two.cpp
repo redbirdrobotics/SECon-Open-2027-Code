@@ -4,8 +4,8 @@
 #include "hardware/i2c.h"
 #include "pico/i2c_slave.h"
 #include "packet.hpp"
-
-
+#include "Motor.hpp"
+#include "const.hpp"
 static uint8_t rx_buf[sizeof(PicoCommand)];
 static volatile size_t rx_index = 0;
 static volatile bool data_ready = false;
@@ -50,6 +50,10 @@ int main() {
 
     PicoCommand payload;
 
+    PicoMotor motor_A(MOTOR_A_IN1_PIN, MOTOR_A_IN2_PIN, MOTOR_A_PWM_PIN);
+    PicoMotor motor_B(MOTOR_B_IN1_PIN, MOTOR_B_IN2_PIN, MOTOR_B_PWM_PIN);
+    PicoMotor motor_C(MOTOR_C_IN1_PIN, MOTOR_C_IN2_PIN, MOTOR_C_PWM_PIN);
+    PicoMotor motor_D(MOTOR_D_IN1_PIN, MOTOR_D_IN2_PIN, MOTOR_D_PWM_PIN);
 
     while (true) {
         if (data_ready) {
@@ -61,6 +65,31 @@ int main() {
             data_ready = false;
 
             // Process all fields
+            motor_A.set_speed(1.0f);
+            motor_B.set_speed(1.0f);
+            motor_C.set_speed(1.0f);
+            motor_D.set_speed(1.0f);
+            sleep_ms(10000);
+            motor_A.set_speed(-0.1286f);
+            motor_B.set_speed(0.1286f);
+            motor_C.set_speed(0.1286f);
+            motor_D.set_speed(-0.1286f);
+            sleep_ms(100);
+            motor_A.set_speed(0.0f);
+            motor_B.set_speed(-0.8f);
+            motor_C.set_speed(0.0f);
+            motor_D.set_speed(-0.8f);
+            sleep_ms(100);
+            motor_A.set_speed(-0.8321f);
+            motor_B.set_speed(-0.7679f);
+            motor_C.set_speed(-0.7679f);
+            motor_D.set_speed(-0.8321f);
+            sleep_ms(100);
+            motor_A.set_speed(0.0f);
+            motor_B.set_speed(0.0f);
+            motor_C.set_speed(0.0f);
+            motor_D.set_speed(0.0f);
+            sleep_ms(1000);
         }
         tight_loop_contents();
     }

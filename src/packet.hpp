@@ -6,12 +6,13 @@
 /*
 This will eventually hold a struct that will contain motor, servo, and whatever other controls from pico one to pico two
 */
+#define SLAVE_I2C         i2c0
+#define SLAVE_I2C_SDA_PIN 16 
+#define SLAVE_I2C_SCL_PIN 17
 
-#define SLAVE_I2C_SDA_PIN 0 
-#define SLAVE_I2C_SCL_PIN 0
-
-#define MASTER_I2C_SDA_PIN 0
-#define MASTER_I2C_SCL_PIN 0
+#define MASTER_I2C         i2c1
+#define MASTER_I2C_SDA_PIN 14
+#define MASTER_I2C_SCL_PIN 15
 
 // IPC meaning inter-pico-communication
 #define IPC_I2C i2c0

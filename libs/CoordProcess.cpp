@@ -12,7 +12,6 @@
 ZSL_MATRIX_DEF(conversion_matrix, 2, 2);
 ZSL_MATRIX_DEF(inverse_conversion_matrix, 2, 2);
 
-
 int setup_conversion_matrices(float theta){
     zsl_real_t c_data[4] = {cos(theta), -sin(theta),
                             sin(theta), cos(theta)};

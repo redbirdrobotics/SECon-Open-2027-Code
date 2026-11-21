@@ -45,7 +45,8 @@ add_executable(pico_one_program
     libs/imported/zsl/statistics.c
     libs/imported/zsl/zsl.c
     libs/LiDAR.cpp
-    libs/CoordProcess.hpp
+    libs/CoordProcess.cpp
+    libs/Control.cpp
 )
 
 pico_set_program_name(pico_one_program "pico_one_program")

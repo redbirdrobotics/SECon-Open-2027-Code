@@ -1,4 +1,7 @@
 #include "Control.hpp"
+#include "CoordProcess.hpp"
+#include <cmath>
+
 namespace Control {
     static PIDConfig cfg_x   = { 0.75f, 0.11f, 0.0f, -0.4f, 0.4f };
     static PIDConfig cfg_y   = { 0.75f, 0.11f, 0.0f, -0.4f, 0.4f };
@@ -71,14 +74,15 @@ namespace Control {
         ZSL_MATRIX_DEF(Local_Signal_Velocities, 3, 1);
         ZSL_MATRIX_DEF(Output_Angular_Frequencies, 4, 1);
         ZSL_MATRIX_DEF(InverseRotation, 2, 2);
-        zsl_real_t inverse_rotation_identity[4] = {fcosf(curr_yaw), fsinf(curr_yaw), -fsins(curr_yaw), fcosf(curr_yaw)};
+        zsl_real_t inverse_rotation_identity[4] = {cos(curr_yaw), sin(curr_yaw), -sin(curr_yaw), cos(curr_yaw)};
         zsl_real_t transform_data[12] = {-sum_l_w, 1, -1, sum_l_w, 1, 1, sum_l_w, 1, -1, -sum_l_w, 1, 1};
         zsl_real_t global_signal_velocities[3] = {True_Yaw_Output, v_x_Global, v_y_Global};
         zsl_mtx_from_arr(&Transform_Matrix, transform_data);
         zsl_mtx_from_arr(&Global_Signal_Velocities, global_signal_velocities);
         zsl_mtx_from_arr(&InverseRotation, inverse_rotation_identity);
-        zsl_mtx_mult(&CoordProcess.inverse_conversion_matrix, &Global_Signal_Velocities, &Local_Signal_Velocities);
+        zsl_mtx_mult(&CoordProcess::inverse_conversion_matrix, &Global_Signal_Velocities, &Local_Signal_Velocities);
         zsl_mtx_mult(&Transform_Matrix, &Local_Signal_Velocities, &Output_Angular_Frequencies);
+
         /*
         * So now we have the actual signals the motors need.
         * Now we place them into the array wheel_pwm to store them.

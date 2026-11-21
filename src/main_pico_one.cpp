@@ -88,7 +88,7 @@ int  lapsCompleted    // Variable to store the number of laps completed
 #include "zsl/zsl.h"
 #include "zsl/matrices.h"
 #include "CoordProcess.hpp"
-#include "pico-one/io_core.hpp"
+#include "pico-one/io_manager.hpp"
 #include "pico-one/const.hpp"
 #include "packet.hpp"
 
@@ -117,8 +117,8 @@ int main() {
     gpio_pull_up(MASTER_I2C_SCL_PIN);
 
 
-    //io_manager.init();
-    //io_manager.run();
+    io_manager.init();
+    io_manager.run();
 
     PicoCommand outgoing_command = {0};
 
@@ -133,24 +133,13 @@ int main() {
         average /= NUM_LIDAR_SWEEPS;
         printf("Mean R: %f\n", average);
         */
-gpio_put(PICO_DEFAULT_LED_PIN, 1);
-    printf("Sending...\n");
-        int written = i2c_write_timeout_us(
-            MASTER_I2C,
-            I2C_SLAVE_ADDRESS,
-            reinterpret_cast<const uint8_t*>(&outgoing_command),
-            sizeof(PicoCommand),
-            false,
-            50000
-        );
-printf("I2C written: %d\n", written);
-    gpio_put(PICO_DEFAULT_LED_PIN, 0);
-    sleep_ms(500);
-        if (written != sizeof(PicoCommand)) {
-            printf("I2C transmission error\n");
+
+        gpio_put(PICO_DEFAULT_LED_PIN, 1);
+        if(io_manager.send_child_command(outgoing_command)){
+            printf("I2C transmission error");
         }
-        printf("I2C written: %d\n", written);
-        sleep_ms(100);
+        gpio_put(PICO_DEFAULT_LED_PIN, 0);
+        sleep_ms(1000);
     }
 
     io_manager.signal_to_end();

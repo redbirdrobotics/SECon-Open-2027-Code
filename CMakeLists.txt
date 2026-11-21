@@ -35,6 +35,7 @@ pico_sdk_init()
 add_executable(pico_one_program
     src/main_pico_one.cpp
     src/pico-one/io_core.cpp
+    src/pico-one/io_manager.cpp
     libs/imported/pico_servo.c
     libs/imported/QuadratureEncoder.cpp
     libs/imported/mp92plus.c

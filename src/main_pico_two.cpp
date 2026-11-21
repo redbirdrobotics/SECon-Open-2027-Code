@@ -69,7 +69,7 @@ int main() {
             motor_B.set_speed(1.0f);
             motor_C.set_speed(1.0f);
             motor_D.set_speed(1.0f);
-            sleep_ms(10000);
+            sleep_ms(100);
             motor_A.set_speed(-0.1286f);
             motor_B.set_speed(0.1286f);
             motor_C.set_speed(0.1286f);
@@ -89,7 +89,6 @@ int main() {
             motor_B.set_speed(0.0f);
             motor_C.set_speed(0.0f);
             motor_D.set_speed(0.0f);
-            sleep_ms(1000);
         }
         tight_loop_contents();
     }

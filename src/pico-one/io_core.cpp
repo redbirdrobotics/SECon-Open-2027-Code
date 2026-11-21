@@ -1,13 +1,11 @@
 #include "io_core.hpp"
+#include "io_manager.hpp"
 #include "pico/multicore.h"
-
-// actual definition of io_manager, this is required for extern IO_Manager io_manager to work
-IO_Manager io_manager;
 
 static int current_pass = 0;
 static uint32_t last_theta = 0;
 
-void poll_lidar() {
+static void poll_lidar() {
     RPLidarC1& lidar = io_manager.lidar;
     PolarPoint point;
 
@@ -31,7 +29,7 @@ void poll_lidar() {
 }
 
 
-bool check_end_signal() {
+static bool check_end_signal() {
 
     if(multicore_fifo_rvalid()){ // this polling the stack between cores to see the end signal
         uint32_t signal = multicore_fifo_pop_blocking();   
@@ -62,24 +60,4 @@ void io_core_main() {
     }
 
     io_manager.lidar.stopScan();
-}
-
-
-void IO_Manager::run() {
-    multicore_launch_core1(io_core_main);
-    multicore_fifo_pop_blocking();  
-}
-
-void IO_Manager::signal_to_end() {
-    multicore_fifo_push_blocking(1);
-}
-
-bool IO_Manager::init() {
-
-    lidar.init(uart0, 12, 13);    
-    for(int i = 0; i < LIDAR_ANGLE_RANGE; i++){
-        mutex_init(&io_manager.theta_bufs[i].mtx);
-    }
-    
-    return true;
 }

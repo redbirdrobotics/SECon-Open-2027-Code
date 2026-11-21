@@ -15,9 +15,9 @@ ZSL_MATRIX_DEF(inverse_conversion_matrix, 2, 2);
 int setup_conversion_matrices(float theta){
     zsl_real_t c_data[4] = {cos(theta), -sin(theta),
                             sin(theta), cos(theta)};
-    zsl_mtx_from_arr(&conversion_matrix, c_data);
-    zsl_mtx_init(&inverse_conversion_matrix, NULL);
-    int rc = zsl_mtx_inv(&conversion_matrix, &inverse_conversion_matrix);
+    zsl_mtx_from_arr(&CoordProcess::conversion_matrix, c_data);
+    zsl_mtx_init(&CoordProcess::inverse_conversion_matrix, NULL);
+    int rc = zsl_mtx_inv(&CoordProcess::conversion_matrix, &CoordProcess::inverse_conversion_matrix);
 
     if(rc != 0){
         /*If this occurs, then the matrix has a determinant of 0, which means that the matrix is singular and cannot be inverted. 

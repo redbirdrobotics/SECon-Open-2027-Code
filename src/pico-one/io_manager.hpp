@@ -7,7 +7,7 @@
 #include "packet.hpp"
 
 #define NUM_LIDAR_SWEEPS 5
-#define LIDAR_ANGLE_RANGE 180
+#define LIDAR_ANGLE_RANGE 360
 
 /*
     My idea is that each index theta will contain the n amount of magnitudes collected.

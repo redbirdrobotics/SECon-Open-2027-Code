@@ -14,8 +14,8 @@ namespace CoordProcess{
     static zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi);
     static zsl_mtx PolarToCartesian(zsl_mtx &polar_matrix);
     static inline zsl_mtx UpdateLocalToGlobalMtx(float t_x, float t_y, float phi);
-    extern ZSL_MATRIX_DEF(conversion_matrix, 2, 2);
-    extern ZSL_MATRIX_DEF(inverse_conversion_matrix, 2, 2);
+    extern struct zsl_mtx conversion_matrix;
+    extern struct zsl_mtx inverse_conversion_matrix;
 }
 
 #endif

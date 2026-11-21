@@ -157,6 +157,7 @@ add_executable(lidar_driver_test
     test/lidar-test.cpp
     src/pico-one/io_manager.cpp
     src/pico-one/io_core.cpp
+    libs/LiDAR.cpp
 )
 
 pico_set_program_name(lidar_driver_test "pico_two_program")
@@ -170,6 +171,7 @@ pico_enable_stdio_usb(lidar_driver_test 1)
 target_link_libraries(lidar_driver_test
     pico_stdlib
     hardware_i2c
+    pico_multicore
 )
 
 # Add the standard include files to the build

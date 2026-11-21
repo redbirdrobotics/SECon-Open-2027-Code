@@ -34,6 +34,7 @@ class IO_Manager {
         void signal_to_end();
         RPLidarC1 lidar;
         LidarData theta_bufs[LIDAR_ANGLE_RANGE];
+        lidar_data_t average_theta_buf[LIDAR_ANGLE_RANGE];
 };
 
 

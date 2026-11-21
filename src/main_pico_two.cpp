@@ -4,8 +4,9 @@
 #include "hardware/i2c.h"
 #include "pico/i2c_slave.h"
 #include "packet.hpp"
-#include "Motor.hpp"
+#include "commands.hpp"
 #include "const.hpp"
+
 static uint8_t rx_buf[sizeof(PicoCommand)];
 static volatile size_t rx_index = 0;
 static volatile bool data_ready = false;
@@ -48,7 +49,7 @@ int main() {
     i2c_init(i2c0, I2C_BAUDRATE);
     i2c_slave_init(i2c0, I2C_SLAVE_ADDRESS, &i2c_slave_handler);
 
-    PicoCommand payload;
+    PicoCommand command;
 
     PicoMotor motor_A(MOTOR_A_IN1_PIN, MOTOR_A_IN2_PIN, MOTOR_A_PWM_PIN);
     PicoMotor motor_B(MOTOR_B_IN1_PIN, MOTOR_B_IN2_PIN, MOTOR_B_PWM_PIN);
@@ -58,37 +59,13 @@ int main() {
     while (true) {
         if (data_ready) {
             // Safely copy bytes into the aligned struct
-            memcpy(&payload, rx_buf, sizeof(PicoCommand));
+            memcpy(&command, rx_buf, sizeof(PicoCommand));
 
             // Release the buffer back to the ISR immediately
             rx_index = 0;
             data_ready = false;
-
-            // Process all fields
-            motor_A.set_speed(1.0f);
-            motor_B.set_speed(1.0f);
-            motor_C.set_speed(1.0f);
-            motor_D.set_speed(1.0f);
-            sleep_ms(100);
-            motor_A.set_speed(-0.1286f);
-            motor_B.set_speed(0.1286f);
-            motor_C.set_speed(0.1286f);
-            motor_D.set_speed(-0.1286f);
-            sleep_ms(100);
-            motor_A.set_speed(0.0f);
-            motor_B.set_speed(-0.8f);
-            motor_C.set_speed(0.0f);
-            motor_D.set_speed(-0.8f);
-            sleep_ms(100);
-            motor_A.set_speed(-0.8321f);
-            motor_B.set_speed(-0.7679f);
-            motor_C.set_speed(-0.7679f);
-            motor_D.set_speed(-0.8321f);
-            sleep_ms(100);
-            motor_A.set_speed(0.0f);
-            motor_B.set_speed(0.0f);
-            motor_C.set_speed(0.0f);
-            motor_D.set_speed(0.0f);
+            
+            run_command(motor_A, motor_B, motor_C, motor_D, command);
         }
         tight_loop_contents();
     }

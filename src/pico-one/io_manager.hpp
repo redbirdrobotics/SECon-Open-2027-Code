@@ -27,7 +27,8 @@ typedef struct {
 class IO_Manager {
     public:
         // initalizes all pins and values needed for IO
-        bool init();
+        bool init_lidar();
+        bool init_child();
         // sets up core 1 and runs core 1
         void run();
         void signal_to_end();

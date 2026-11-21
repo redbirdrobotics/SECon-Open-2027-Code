@@ -111,19 +111,12 @@ void targetposition(int x, int y) {
 int main() {
     stdio_init_all();
 
-    io_manager.init();
+    io_manager.init_lidar();
+    // io_manager.init_child();
     io_manager.run();
-
-    PicoCommand outgoing_command = {0};
 
     while (true) {
 
-        // gpio_put(PICO_DEFAULT_LED_PIN, 1);
-        // if(io_manager.send_child_command(outgoing_command)){
-        //     printf("I2C transmission error");
-        // }
-        // gpio_put(PICO_DEFAULT_LED_PIN, 0);
-        // sleep_ms(1000);
         io_manager.average_lidar_data();
         printf("lidar value: %f\n", io_manager.average_theta_buf[45]);
     }

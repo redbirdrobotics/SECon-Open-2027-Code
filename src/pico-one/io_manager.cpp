@@ -56,13 +56,18 @@ void IO_Manager::signal_to_end() {
     multicore_fifo_push_blocking(1);
 }
 
-bool IO_Manager::init() {
-    
+bool IO_Manager::init_child() {
     i2c_init(MASTER_I2C, I2C_BAUDRATE);
     gpio_set_function(MASTER_I2C_SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(MASTER_I2C_SCL_PIN, GPIO_FUNC_I2C);
     gpio_pull_up(MASTER_I2C_SDA_PIN);
     gpio_pull_up(MASTER_I2C_SCL_PIN);
+
+    return true;
+}
+
+
+bool IO_Manager::init_lidar() {
 
     lidar.init(uart0, 12, 13);    
     for(int i = 0; i < LIDAR_ANGLE_RANGE; i++){

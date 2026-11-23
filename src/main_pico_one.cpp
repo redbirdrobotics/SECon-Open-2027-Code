@@ -112,7 +112,7 @@ int main() {
     stdio_init_all();
 
     io_manager.init_lidar();
-    // io_manager.init_child();
+    io_manager.init_child();
     io_manager.run();
 
     while (true) {
